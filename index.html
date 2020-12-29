@@ -38,6 +38,10 @@
 		//send message to the server when the Send button is pressed
 		document.querySelector("#send_message").addEventListener('click', () => 
 			socket.send(document.querySelector("#user_message").value));
+		
+		//get rid of button text once button is pressed
+		document.querySelector("#send_message").addEventListener('click', () => 
+			document.querySelector("#user_message").value = "");
 
 
 	})
