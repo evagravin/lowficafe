@@ -47,8 +47,11 @@
           background: #555;
         }
 
+
+
+
+
     </style>
-	
 
 </head>
 <body>
@@ -80,39 +83,41 @@
 </div>
 
 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-<script type="text/javascript">
+		//get username
+		const username = `{{username}}`;
+
 		document.addEventListener('DOMContentLoaded', () => {
 		var socket = io();
 
 		//send message to the server when user connects
 		socket.on('connect', () => {
-			socket.send("I am connected!");
+			socket.send({"msg": username + " has connected!"});
 		});
 
 		//message is recieved from the server
 		socket.on('message', data => {
 			const p = document.createElement('p');
-			p.innerHTML = data;
+			const usr = document.createElement('p');
+			p.innerHTML = data["msg"];
+			usr.innerHTML = data["username"];
 			document.querySelector("#messages").append(p);
 		});
 
 		//send message to the server when the Send button is pressed
-		document.querySelector("#send_message").addEventListener('click', () =>
-			socket.send(document.querySelector("#user_message").value));
-
+		document.querySelector("#send_message").addEventListener('click', () => 
+			socket.send({'msg': document.querySelector("#user_message").value, 'username':username}));
+		
 		//get rid of button text once button is pressed
-		document.querySelector("#send_message").addEventListener('click', () =>
+		document.querySelector("#send_message").addEventListener('click', () => 
 			document.querySelector("#user_message").value = "");
 
 
 	})
-
-
-
-
 	</script>
-
+	
 </body>
 </html>
+
