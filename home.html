@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>loficafe</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css" rel="stylesheet">
+
+        .our-container {
+            display: table;
+            width: 100%;
+        }
+
+        .my-col {
+            display: table-cell;
+        }
+
+        .col2 {
+            height: 500px;
+        }
+
+        #chat {
+
+              height: 500px;
+              display: block;
+              overflow: auto;
+              border: 1px solid lightgrey;
+
+        }
+
+        ::-webkit-scrollbar {
+          width: 10px;
+          background-color: #aaa;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+
+
+
+
+
+    </style>
+
+</head>
+<body>
+<div class="container our-container">
+            <div class="row our-row">
+                <div class="col our-col">
+                    Logo
+                </div>
+            </div>
+            <div class="row justify-content-center our-row">
+                <div class="col-9 our-col col2">
+                    <p style="text-align: center;">Mo's Animation</p>
+                </div>
+                <div class="col-3 our-col">
+                    <div id="chat">
+                        <div id="messages">
+                        </div>
+                    </div>
+                    <p></p>
+                    <input type="text" id="user_message" placeholder="Type Here">
+                    <button type="button" id="send_message">Send</button>
+                </div>
+            </div>
+
+            <div class="row our-row">
+                <p style="text-align: center;">Third Row</p>
+            </div>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', () => {
+		var socket = io();
+
+		//send message to the server when user connects
+		socket.on('connect', () => {
+			socket.send("I am connected!");
+		});
+
+		//message is recieved from the server
+		socket.on('message', data => {
+			const p = document.createElement('p');
+			p.innerHTML = data;
+			document.querySelector("#messages").append(p);
+		});
+
+		//send message to the server when the Send button is pressed
+		document.querySelector("#send_message").addEventListener('click', () =>
+			socket.send(document.querySelector("#user_message").value));
+
+		//get rid of button text once button is pressed
+		document.querySelector("#send_message").addEventListener('click', () =>
+			document.querySelector("#user_message").value = "");
+
+
+	})
+
+
+
+
+	</script>
+
+</body>
+</html>
