@@ -17,18 +17,32 @@
             display: table-cell;
         }
 
-        .col2 {
+        .row1col1 {
+
+        }
+
+        .row2col1 {
+
+        }
+
+        .row2col2 {
             height: 500px;
+
+        }
+
+        .row3col1 {
+            
         }
 
         #chat {
 
-              height: 500px;
+              height: 90%;
               display: block;
               overflow: auto;
               border: 1px solid lightgrey;
 
         }
+
 
         ::-webkit-scrollbar {
           width: 10px;
@@ -47,25 +61,22 @@
           background: #555;
         }
 
-
-
-
-
     </style>
+
 
 </head>
 <body>
-<div class="container our-container">
+<div class="container-fluid our-container">
             <div class="row our-row">
-                <div class="col our-col">
-                    Logo
+                <div class="col our-col row1col1">
+                    <img src="" alt="Logo">
                 </div>
             </div>
             <div class="row justify-content-center our-row">
-                <div class="col-9 our-col col2">
+                <div class="col-9 our-col row2col1">
                     <p style="text-align: center;">Mo's Animation</p>
                 </div>
-                <div class="col-3 our-col">
+                <div class="col-3 our-col row2col2">
                     <div id="chat">
                         <div id="messages">
                         </div>
@@ -76,48 +87,46 @@
                 </div>
             </div>
 
-            <div class="row our-row">
+            <div class="row our-row row3col1">
                 <p style="text-align: center;">Third Row</p>
             </div>
 
 </div>
 
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-	<script type="text/javascript">
 
-		//get username
-		const username = `{{username}}`;
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', () => {
 		var socket = io();
 
 		//send message to the server when user connects
 		socket.on('connect', () => {
-			socket.send({"msg": username + " has connected!"});
+			socket.send("I am connected!");
 		});
 
 		//message is recieved from the server
 		socket.on('message', data => {
 			const p = document.createElement('p');
-			const usr = document.createElement('p');
-			p.innerHTML = data["msg"];
-			usr.innerHTML = data["username"];
+			p.innerHTML = data;
 			document.querySelector("#messages").append(p);
 		});
 
 		//send message to the server when the Send button is pressed
-		document.querySelector("#send_message").addEventListener('click', () => 
-			socket.send({'msg': document.querySelector("#user_message").value, 'username':username}));
-		
+		document.querySelector("#send_message").addEventListener('click', () =>
+			socket.send(document.querySelector("#user_message").value));
+
 		//get rid of button text once button is pressed
-		document.querySelector("#send_message").addEventListener('click', () => 
+		document.querySelector("#send_message").addEventListener('click', () =>
 			document.querySelector("#user_message").value = "");
 
 
 	})
+
+
+
+
 	</script>
-	
+
 </body>
 </html>
-
