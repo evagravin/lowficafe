@@ -1,8 +1,11 @@
+import os
 from flask import Flask, render_template, redirect, session, request, url_for
 from flask_socketio import SocketIO, send, emit
 
+#4.3.2
+
 app = Flask(__name__)
-app.secret_key = "ARK9999999995999"
+app.secret_key = os.environ.get('SECRET')
 socketio = SocketIO(app)
 
 
@@ -28,7 +31,10 @@ def home():
 @socketio.on('message')
 def message(data):
 	print(data)
-	send(data)
+	emit("message", data, broadcast = True)
+	
+	
+
 
 if __name__ == '__main__':
-    socketio.run(app)
+    app.run()
