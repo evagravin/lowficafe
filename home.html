@@ -152,7 +152,7 @@
 		var user = 0;
 
 		document.addEventListener('DOMContentLoaded', () => {
-		var socket = io();
+		var socket = io.connect('https://' + document.domain + ':' + location.port);
 
 		//send message to the server when user connects
 		socket.on('connect', () => {
@@ -164,6 +164,7 @@
 			const p = document.createElement('p');
 			const span_usr = document.createElement('span');
 			const br = document.createElement('br');
+            console.log(data);
 			span_usr.innerHTML = data["username"];
 			if(user == 0){
 				p.innerHTML = data["msg"];
@@ -190,3 +191,5 @@
 	
 </body>
 </html>
+
+
